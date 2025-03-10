@@ -25,9 +25,13 @@ function validateEnvironment() {
     'MONGODB_URI',
     'AWS_ACCESS_KEY_ID',
     'AWS_SECRET_ACCESS_KEY',
-    'AWS_REGION',
     'S3_BUCKET_NAME'
   ];
+  
+  // Only require AWS_REGION if S3_ENDPOINT_URL is not provided
+  if (!process.env.S3_ENDPOINT_URL) {
+    requiredVars.push('AWS_REGION');
+  }
 
   const missingVars = requiredVars.filter(varName => !process.env[varName]);
   

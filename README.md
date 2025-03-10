@@ -26,12 +26,12 @@ Configure the service using environment variables:
 - `MONGODB_URI`: MongoDB connection string
 - `AWS_ACCESS_KEY_ID`: AWS access key or S3-compatible storage access key
 - `AWS_SECRET_ACCESS_KEY`: AWS secret key or S3-compatible storage secret key
-- `AWS_REGION`: AWS region (e.g., `us-east-1`) or region for your S3-compatible storage
 - `S3_BUCKET_NAME`: Name of the S3 bucket to store backups
+- `AWS_REGION`: AWS region (e.g., `us-east-1`) - **Required only when using AWS S3**
 
 ### Optional Environment Variables
 
-- `S3_ENDPOINT_URL`: Endpoint URL for S3-compatible storage (e.g., `https://nyc3.digitaloceanspaces.com` for DigitalOcean Spaces)
+- `S3_ENDPOINT_URL`: Endpoint URL for S3-compatible storage (e.g., `https://ams3.digitaloceanspaces.com` for DigitalOcean Spaces)
 - `BACKUP_RETENTION_DAYS`: Number of days to keep backups (default: 7)
 - `BACKUP_DIR`: Local directory to store temporary backups
 - `LOG_LEVEL`: Logging level (default: `info`)
@@ -41,20 +41,21 @@ Configure the service using environment variables:
 
 To use DigitalOcean Spaces or another S3-compatible storage provider instead of AWS S3:
 
-1. Set the required environment variables as usual:
+1. Set the required environment variables:
    ```
    AWS_ACCESS_KEY_ID=your_spaces_key
    AWS_SECRET_ACCESS_KEY=your_spaces_secret
-   AWS_REGION=nyc3  # Your DigitalOcean region
    S3_BUCKET_NAME=your-spaces-name
    ```
 
 2. Set the S3 endpoint URL environment variable:
    ```
-   S3_ENDPOINT_URL=https://nyc3.digitaloceanspaces.com
+   S3_ENDPOINT_URL=https://ams3.digitaloceanspaces.com
    ```
 
-The application will automatically detect and use the correct configuration for the S3-compatible storage.
+3. The `AWS_REGION` variable is optional when using a custom endpoint. If not provided, a default region will be used.
+
+The application automatically detects that you're using S3-compatible storage instead of AWS S3 and configures the connection appropriately.
 
 ## Running Locally
 

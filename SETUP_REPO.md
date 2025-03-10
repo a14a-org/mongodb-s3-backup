@@ -61,11 +61,12 @@ This guide will help you turn the `mongodb-s3-backup` directory into a standalon
    - `MONGODB_URI` - Your MongoDB connection string
    - `AWS_ACCESS_KEY_ID` - Your AWS access key or S3-compatible storage access key
    - `AWS_SECRET_ACCESS_KEY` - Your AWS secret key or S3-compatible storage secret key
-   - `AWS_REGION` - AWS region (e.g., us-east-1) or region for your S3-compatible storage
    - `S3_BUCKET_NAME` - Name of your S3 bucket
+   - `AWS_REGION` - AWS region (e.g., us-east-1) - **Required only when using AWS S3**
 
 3. For DigitalOcean Spaces or other S3-compatible storage, also set:
-   - `S3_ENDPOINT_URL` - Endpoint URL for S3-compatible storage (e.g., `https://nyc3.digitaloceanspaces.com`)
+   - `S3_ENDPOINT_URL` - Endpoint URL for S3-compatible storage (e.g., `https://ams3.digitaloceanspaces.com`)
+   - Note: When using `S3_ENDPOINT_URL`, the `AWS_REGION` variable becomes optional
 
 4. Deploy the service
 

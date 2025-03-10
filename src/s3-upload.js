@@ -9,7 +9,6 @@ const { logger } = require('./utils');
 // Create S3 client
 const createS3Client = () => {
   const config = {
-    region: process.env.AWS_REGION,
     credentials: {
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
@@ -21,10 +20,23 @@ const createS3Client = () => {
     logger.info(`Using custom S3 endpoint: ${process.env.S3_ENDPOINT_URL}`);
     config.endpoint = process.env.S3_ENDPOINT_URL;
     
-    // For DigitalOcean Spaces, we need to force path-style access
-    if (process.env.S3_ENDPOINT_URL.includes('digitaloceanspaces.com')) {
-      config.forcePathStyle = true;
+    // For S3-compatible services like DigitalOcean Spaces, we need to force path-style access
+    config.forcePathStyle = true;
+    
+    // For S3-compatible services, set a default region if AWS_REGION is not provided
+    // This is just a placeholder as the actual region is determined by the endpoint
+    if (!process.env.AWS_REGION) {
+      config.region = 'us-east-1'; // Default region, not used with custom endpoint
+      logger.info('Using default region with custom S3 endpoint');
+    } else {
+      config.region = process.env.AWS_REGION;
     }
+  } else {
+    // AWS S3 requires a region
+    if (!process.env.AWS_REGION) {
+      throw new Error('AWS_REGION is required when using AWS S3');
+    }
+    config.region = process.env.AWS_REGION;
   }
 
   return new S3Client(config);
