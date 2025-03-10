@@ -59,12 +59,15 @@ This guide will help you turn the `mongodb-s3-backup` directory into a standalon
 1. In Coolify, add the repository: `https://github.com/a14a-org/mongodb-s3-backup`
 2. Configure the required environment variables:
    - `MONGODB_URI` - Your MongoDB connection string
-   - `AWS_ACCESS_KEY_ID` - Your AWS access key
-   - `AWS_SECRET_ACCESS_KEY` - Your AWS secret key
-   - `AWS_REGION` - AWS region (e.g., us-east-1)
+   - `AWS_ACCESS_KEY_ID` - Your AWS access key or S3-compatible storage access key
+   - `AWS_SECRET_ACCESS_KEY` - Your AWS secret key or S3-compatible storage secret key
+   - `AWS_REGION` - AWS region (e.g., us-east-1) or region for your S3-compatible storage
    - `S3_BUCKET_NAME` - Name of your S3 bucket
 
-3. Deploy the service
+3. For DigitalOcean Spaces or other S3-compatible storage, also set:
+   - `S3_ENDPOINT_URL` - Endpoint URL for S3-compatible storage (e.g., `https://nyc3.digitaloceanspaces.com`)
+
+4. Deploy the service
 
 ## Step 5: Verify Deployment
 
@@ -74,6 +77,6 @@ This guide will help you turn the `mongodb-s3-backup` directory into a standalon
    docker exec <container_id> /app/run-backup.sh
    ```
 
-3. Verify that the backup appears in your S3 bucket
+3. Verify that the backup appears in your S3 bucket or S3-compatible storage
 
 The service is now set up to perform daily backups at midnight and maintain a 7-day retention policy. 

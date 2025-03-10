@@ -7,13 +7,30 @@ const fs = require('fs');
 const { logger } = require('./utils');
 
 // Create S3 client
-const s3Client = new S3Client({
-  region: process.env.AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+const createS3Client = () => {
+  const config = {
+    region: process.env.AWS_REGION,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
+    }
+  };
+
+  // If S3_ENDPOINT_URL is provided, use it (for DigitalOcean Spaces, Minio, etc.)
+  if (process.env.S3_ENDPOINT_URL) {
+    logger.info(`Using custom S3 endpoint: ${process.env.S3_ENDPOINT_URL}`);
+    config.endpoint = process.env.S3_ENDPOINT_URL;
+    
+    // For DigitalOcean Spaces, we need to force path-style access
+    if (process.env.S3_ENDPOINT_URL.includes('digitaloceanspaces.com')) {
+      config.forcePathStyle = true;
+    }
   }
-});
+
+  return new S3Client(config);
+};
+
+const s3Client = createS3Client();
 
 /**
  * Uploads a file to an S3 bucket

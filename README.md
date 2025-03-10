@@ -1,20 +1,20 @@
 # MongoDB S3 Backup
 
-Automated MongoDB backup to AWS S3 with retention management. This service performs daily backups of your MongoDB database, uploads them to an S3 bucket, and maintains a 7-day retention policy.
+Automated MongoDB backup to AWS S3 with retention management. This service performs daily backups of your MongoDB database, uploads them to an S3 bucket, and maintains a 7-day retention policy. Supports both AWS S3 and S3-compatible storage services like DigitalOcean Spaces.
 
 ## Features
 
 - Automated MongoDB backups using `mongodump`
 - Compression of backups to save storage space
-- Secure upload to AWS S3
+- Secure upload to AWS S3 or S3-compatible storage
 - Configurable retention policy (default: 7 days)
 - Built for Coolify deployment
 
 ## Requirements
 
-- Node.js 14+
+- Node.js 22.11.0+
 - MongoDB tools (`mongodump`)
-- AWS S3 bucket
+- AWS S3 bucket or S3-compatible storage (DigitalOcean Spaces, Minio, etc.)
 - AWS credentials with S3 access
 
 ## Configuration
@@ -24,17 +24,37 @@ Configure the service using environment variables:
 ### Required Environment Variables
 
 - `MONGODB_URI`: MongoDB connection string
-- `AWS_ACCESS_KEY_ID`: AWS access key
-- `AWS_SECRET_ACCESS_KEY`: AWS secret key
-- `AWS_REGION`: AWS region (e.g., `us-east-1`)
+- `AWS_ACCESS_KEY_ID`: AWS access key or S3-compatible storage access key
+- `AWS_SECRET_ACCESS_KEY`: AWS secret key or S3-compatible storage secret key
+- `AWS_REGION`: AWS region (e.g., `us-east-1`) or region for your S3-compatible storage
 - `S3_BUCKET_NAME`: Name of the S3 bucket to store backups
 
 ### Optional Environment Variables
 
+- `S3_ENDPOINT_URL`: Endpoint URL for S3-compatible storage (e.g., `https://nyc3.digitaloceanspaces.com` for DigitalOcean Spaces)
 - `BACKUP_RETENTION_DAYS`: Number of days to keep backups (default: 7)
 - `BACKUP_DIR`: Local directory to store temporary backups
 - `LOG_LEVEL`: Logging level (default: `info`)
 - `LOG_FILE`: Path to log file (default: `mongodb-backup.log`)
+
+## Using DigitalOcean Spaces or Other S3-compatible Storage
+
+To use DigitalOcean Spaces or another S3-compatible storage provider instead of AWS S3:
+
+1. Set the required environment variables as usual:
+   ```
+   AWS_ACCESS_KEY_ID=your_spaces_key
+   AWS_SECRET_ACCESS_KEY=your_spaces_secret
+   AWS_REGION=nyc3  # Your DigitalOcean region
+   S3_BUCKET_NAME=your-spaces-name
+   ```
+
+2. Set the S3 endpoint URL environment variable:
+   ```
+   S3_ENDPOINT_URL=https://nyc3.digitaloceanspaces.com
+   ```
+
+The application will automatically detect and use the correct configuration for the S3-compatible storage.
 
 ## Running Locally
 
