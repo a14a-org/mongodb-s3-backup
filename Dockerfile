@@ -20,8 +20,9 @@ RUN if [ -f package-lock.json ]; then \
 # Bundle app source
 COPY . .
 
-# Create directory for backups
-RUN mkdir -p /app/backups
+# Create directory for backups and initialize log file
+RUN mkdir -p /app/backups && \
+    touch /app/mongodb-backup.log
 ENV BACKUP_DIR=/app/backups
 
 # Set up cron job
@@ -33,5 +34,5 @@ RUN echo '#!/bin/sh' > /app/run-backup.sh
 RUN echo 'node /app/src/backup.js' >> /app/run-backup.sh
 RUN chmod +x /app/run-backup.sh
 
-# Display logs
+# Ensure log file exists and start services
 CMD ["sh", "-c", "crond -f & tail -f /app/mongodb-backup.log"] 
