@@ -1,6 +1,6 @@
 FROM node:22.11.0-alpine
 
-# Install MongoDB tools
+# Install MongoDB tools and dependencies
 RUN apk add --no-cache mongodb-tools
 
 # Create app directory

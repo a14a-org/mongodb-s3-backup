@@ -13,9 +13,51 @@ Automated MongoDB backup to AWS S3 with retention management. This service perfo
 ## Requirements
 
 - Node.js 22.11.0+
-- MongoDB tools (`mongodump`)
+- MongoDB Database Tools (`mongodump` and `mongorestore`)
 - AWS S3 bucket or S3-compatible storage (DigitalOcean Spaces, Minio, etc.)
 - AWS credentials with S3 access
+
+## Installing MongoDB Database Tools
+
+Before using this tool, you need to install MongoDB Database Tools:
+
+### On Ubuntu/Debian
+```bash
+# Import the MongoDB public GPG key
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo apt-key add -
+
+# Add MongoDB repository
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu $(lsb_release -cs)/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+
+# Update package database
+sudo apt-get update
+
+# Install MongoDB Database Tools
+sudo apt-get install -y mongodb-database-tools
+```
+
+### On CentOS/RHEL
+```bash
+# Create a repository file
+cat <<EOF | sudo tee /etc/yum.repos.d/mongodb-org-6.0.repo
+[mongodb-org-6.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/\$releasever/mongodb-org/6.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-6.0.asc
+EOF
+
+# Install MongoDB Database Tools
+sudo yum install -y mongodb-database-tools
+```
+
+### On macOS
+```bash
+# Using Homebrew
+brew tap mongodb/brew
+brew install mongodb-database-tools
+```
 
 ## Configuration
 
@@ -67,7 +109,9 @@ The application automatically detects that you're using S3-compatible storage in
    npm install
    ```
 
-4. Run the backup:
+4. Ensure MongoDB Database Tools are installed (see above)
+
+5. Run the backup:
 
    ```bash
    npm start
@@ -81,6 +125,8 @@ This service includes a Dockerfile for container deployment:
 docker build -t mongodb-s3-backup .
 docker run -d --env-file .env mongodb-s3-backup
 ```
+
+The Dockerfile automatically installs the required MongoDB tools.
 
 ## Coolify Deployment
 
