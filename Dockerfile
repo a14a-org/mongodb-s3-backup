@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:22.11.0-alpine
 
 # Install MongoDB tools
 RUN apk add --no-cache mongodb-tools

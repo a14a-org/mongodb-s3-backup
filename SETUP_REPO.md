@@ -5,6 +5,7 @@ This guide will help you turn the `mongodb-s3-backup` directory into a standalon
 ## Step 1: Create a New Repository
 
 1. Go to your Git hosting provider (GitHub, GitLab, etc.) and create a new repository
+   - The repository should be created at: https://github.com/a14a-org/mongodb-s3-backup
 2. Do not initialize it with any files
 
 ## Step 2: Prepare Your Local Directory
@@ -44,17 +45,18 @@ This guide will help you turn the `mongodb-s3-backup` directory into a standalon
 
 5. Link to your remote repository:
    ```bash
-   git remote add origin <your-repository-url>
+   git remote add origin https://github.com/a14a-org/mongodb-s3-backup.git
    ```
 
 6. Push to the remote repository:
    ```bash
+   git branch -m master main  # Rename the default branch to main
    git push -u origin main
    ```
 
 ## Step 4: Deploy on Coolify
 
-1. In Coolify, add your new repository
+1. In Coolify, add the repository: `https://github.com/a14a-org/mongodb-s3-backup`
 2. Configure the required environment variables:
    - `MONGODB_URI` - Your MongoDB connection string
    - `AWS_ACCESS_KEY_ID` - Your AWS access key
