@@ -18,15 +18,15 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.1062.0",
+    "@aws-sdk/client-s3": "^3.1071.0",
     "dotenv": "^17.4.2",
     "tar": "^7.5.16",
     "winston": "^3.19.0"
   },
   "devDependencies": {
-    "prettier": "^3.8.3"
+    "prettier": "^3.8.4"
   },
   "engines": {
-    "node": ">=22.22.3"
+    "node": ">=22.23.0"
   }
 } 
