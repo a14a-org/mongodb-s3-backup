@@ -1,4 +1,4 @@
-FROM node:22.22.3-alpine
+FROM node:22.23.0-alpine
 
 # Install MongoDB tools with explicit version and verify installation
 RUN apk add --no-cache mongodb-tools && \
